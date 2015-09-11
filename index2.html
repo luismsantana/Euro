@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>EuroHealthy</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+<link type="text/css" rel="stylesheet" href="estilos1.css" media="screen" />
+
+<style>
+		input[type=file]{
+			float:left;
+		}
+	</style>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+</head>
+<body>
+
+
+	<div id="centernologin" style="position: fixed; top: 50%; left:50%; transform: translate(-50%, -50%);">
+		<div id="wrappertopnologin"></div>
+		<div id="wrappermiddlenologin" style="padding: 40px; padding-top: 50px;">
+		<h4 style="text-align:center">ALPHANUMERICS</h4>
+<form action="#">
+			
+			<p style="font-weight:bold">CSV FILE: </p>
+			<input type="file" class="input" id="csvfile" name="image" >
+			<button  id="submitcsv" class="btn btn-sm btn-success upload" style="margin-left:10px;" type="submit" disabled>Upload</button>
+			<button type="button" id="cancelcsv" style="margin-left:10px;" class="btn btn-sm btn-danger cancel">Cancel</button>
+                        <div id="erroextensao" style="display: none">The file has the wrong extension.</div>
+                        <div id="erroformato" style="display: none">The file wrong data.</div>
+                        
+			<div class="progress progress-striped active" style="margin-top:10px;">
+				<div class="progress-bar" id="barcsv" style="width:0%"></div>
+			</div>
+		</form>
+
+		<form action="#">
+			<p style="font-weight:bold">TXT FILE: </p>
+			<input type="file" id="txt1" class="input" name="image" >
+			<button id="submitTxt1" class="btn btn-sm btn-success upload" style="margin-left:10px;" type="submit" disabled>Upload</button>
+			<button type="button" id="cancelTxt" style="margin-left:10px;" class="btn btn-sm btn-danger cancel">Cancel</button>
+
+			<div class="progress progress-striped active" style="margin-top:10px;">
+				<div class="progress-bar" id="barTxt" style="width:0%"></div>
+			</div>
+		</form>
+
+		<br>
+		<h4 style="text-align:center">METADATA</h4>
+	
+		<form action="#">
+			<p style="font-weight:bold">SHAPE FILE: </p>
+
+                        <label id="shapelabel" class="radio_inline">
+                            <input id="single" type="radio" name="optionsRadios">
+                            Single File
+                        </label>
+
+                        <label id="shapelabel1" class="radio_inline" style="margin-left:10px">
+                            <input id="multiple" type="radio" name="optionsRadios">  
+                            Multiple Files
+                        </label>
+                        <p>
+                            <select name="anos" id="anos" style="display: none; margin-left: -20px;">
+                                <option>2001</option>
+                                <option>2002</option>
+                                <option>2003</option>
+                                <option>2004</option>
+                                <option>2005</option>
+                                <option>2006</option>
+                                <option>2007</option>
+                                <option>2008</option>
+                                <option>2009</option>
+                                <option>2010</option>
+                                <option>2011</option>
+                                <option>2012</option>
+                                <option>2013</option>
+                                <option>2014</option>
+                                <option>2015</option>
+                            </select>
+                        </p>
+			<input id="shape" class="input" type="file" name="image" style="display: none">
+			<button id="submitshape" class="btn btn-sm btn-success upload" style="margin-left:10px; display: none" type="submit"  disabled>Upload</button>
+			<button type="button" id="cancelshape" style="margin-left:10px; display: none" class="btn btn-sm btn-danger cancel" >Cancel</button>
+
+			<div class="progress progress-striped active" id="bar" style="margin-top:10px; display: none">
+				<div class="progress-bar" id="barshape" style="width:0%"></div>
+			</div>
+		</form>
+
+		<form action="#">
+			<p style="font-weight:bold">TXT FILE: </p>
+			<input id="txt2" class="input" type="file" name="image" >
+			<button id="submitTxt2" class="btn btn-sm btn-success upload" style="margin-left:10px;" type="submit" disabled>Upload</button>
+			<button type="button" id="cancelTxt2" style="margin-left:10px;" class="btn btn-sm btn-danger cancel">Cancel</button>
+
+			<div class="progress progress-striped active" style="margin-top:10px;">
+				<div class="progress-bar" id="barTxt2" style="width:0%"></div>
+			</div>
+		</form>
+
+		<hr>
+
+		<button class="btn btn-sm btn-success upload-all" disabled>Upload All</button>
+		<button class="btn btn-sm btn-danger cancel-all">Cancel All</button>
+
+	</div><!-- end .container -->
+	<div id="wrapperbottomnologin"></div>
+	</div>
+		
+	<script>
+
+		$('.upload-all').click(function(){
+			//submit all form
+			$('form').submit();
+		});
+		$('.cancel-all').click(function(){
+			//submit all form
+			$('form .cancel').click();
+		});
+
+		$(document).on('submit','form',function(e){
+
+			e.preventDefault();
+			$form = $(this);
+                        if(find().input)
+			uploadImage($form);
+		});
+
+		function uploadImage($form){
+			$form.find('.progress-bar').removeClass('progress-bar-success')
+										.removeClass('progress-bar-danger');
+			var formdata = new FormData($form[0]); //formelement
+			var request = new XMLHttpRequest();
+			//progress event...
+			request.upload.addEventListener('progress',function(e){
+				var percent = Math.round(e.loaded/e.total * 100);
+				console.log(percent);
+				$form.find('.progress-bar').width(percent+'%').html(percent+'%');
+			});
+			//progress completed load event
+			request.addEventListener('load',function(e){
+				$form.find('.progress-bar').addClass('progress-bar-success').html('upload completed....');
+			});
+			request.open('post', 'upload.php');
+			request.send(formdata);
+			$form.on('click','.cancel',function(){
+				request.abort();
+				$form.find('.progress-bar')
+					.addClass('progress-bar-danger')
+					.removeClass('progress-bar-success')
+					.html('upload aborted...');
+			});
+		}
+		//thanks for watching........
+		//code on git........
+		//subscribe, share, like, comment.............
+
+
+        $("#csvfile").change( function(){
+
+            $("#submitcsv").removeAttr('disabled');
+            percent = 0;
+            $('#barcsv').width(percent+'%').html(percent+'%');
+            
+        });
+
+        $("#txt1").change( function(){
+	    	
+            $("#submitTxt1").removeAttr('disabled');
+            percent = 0;
+            $('#barTxt').width(percent+'%').html(percent+'%');
+           
+            
+        });
+
+        $("#shape").change( function(){
+            $("#submitshape").removeAttr('disabled');
+            percent = 0;
+            $('#barshape').width(percent+'%').html(percent+'%');
+            
+        });
+
+     	$("#txt2").change( function(){
+			
+            $("#submitTxt2").removeAttr('disabled');
+            percent = 0;
+            $('#barTxt2').width(percent+'%').html(percent+'%');
+            
+        });
+
+        function reset_form_element (e) {
+		    e.wrap('<form>').parent('form').trigger('reset');
+		    e.unwrap();
+		}
+
+        $("#cancelcsv").click(function(){
+        	$("#submitcsv").attr('disabled', 'disabled');
+        	percent = 0;
+        	$('#barcsv').width(percent+'%').html(percent+'%');
+                var control = $("#csvfile");
+                control.replaceWith( control = control.clone( true ) );
+                
+        });
+        
+        $("#cancelTxt").click(function(){
+        	$("#submitTxt1").attr('disabled', 'disabled');
+        	percent = 0;
+        	$('#barTxt').width(percent+'%').html(percent+'%');
+        	reset_form_element( $('#txt1') );
+    		e.preventDefault();
+                
+        });
+        
+        $("#cancelshape").click(function(){
+        	$("#submitshape").attr('disabled', 'disabled');
+        	percent = 0;
+        	$('#barshape').width(percent+'%').html(percent+'%');
+                var control = $("#shape");
+                control.replaceWith( control = control.clone( true ) );
+        	reset_form_element( $('#shape') );
+    		e.preventDefault();
+                
+        });
+        
+        $("#cancelTxt2").click(function(){
+            $("#submitTxt2").attr('disabled', 'disabled');
+        	percent = 0;
+        	$form.find('#barTxt2').width(percent+'%').html(percent+'%');
+                var control = $("#txt2");
+                control.replaceWith( control = control.clone( true ) );
+        	reset_form_element( $('#txt2') );
+    		e.preventDefault();
+        });
+        
+        $(".radio_inline input[type='radio']").on( 'click', function(){
+            if ($("#single").is(":checked")) {
+                $(this).fadeOut();
+                $("#shapelabel").fadeOut();
+                $("#multiple").fadeOut();
+                $("#shapelabel").fadeOut();
+                $("#shape").fadeIn(2500);
+                $("#submitshape").fadeIn(2500);
+                $("#cancelshape").fadeIn(2500);
+                $("#bar").fadeIn(2500);
+                
+            } else if ($("#multiple").is(":checked")) {
+                $(this).fadeOut();
+                $("#shapelabel").fadeOut();
+                $("#single").fadeOut();
+                $("#shapelabel1").fadeOut();
+                $("#anos").fadeIn(2500);
+                $("#shape").fadeIn(2500);
+                $("#submitshape").fadeIn(2500);
+                $("#cancelshape").fadeIn(2500);
+                $("#bar").fadeIn(2500);
+            }
+});
+        </script>
+</body>
+</html>
