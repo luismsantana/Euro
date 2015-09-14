@@ -1,9 +1,16 @@
 <?php
+$fileName = $_FILES["csvfile"]["name"];
+$filetmp = $_FILES["csvfile"]["tmp_name"];
 
-$tmp_file = $_FILES['image']['tmp_name'];
-$file_name = $_FILES['image']['name'];
+echo $filetmp;
+if(!$filetmp){
+  echo "error: please browse for a file before submiting!";
+  exit();
+}
 
-var_dump($tmp_file);
-var_dump($file_name);
-
-move_uploaded_file($tmp_file, "uploads/" . $file_name);
+if(move_uploaded_file($filetmp, "uploads/$fileName")){
+  echo "$fileName upload complete!";
+}else{
+  echo "move_uploaded_file function failed!";
+}
+ ?>

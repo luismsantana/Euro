@@ -16,6 +16,7 @@
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
   <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+  <script src="http://malsup.github.com/jquery.form.js"></script>
 </head>
 <body>
 
@@ -24,44 +25,74 @@
 		<div id="wrappertopnologin"></div>
 		<div id="wrappermiddlenologin" style="padding: 40px; padding-top: 50px;">
 		<h4 style="text-align:center">ALPHANUMERICS</h4>
-<form action="#">
-			
-			<p style="font-weight:bold">CSV FILE: </p>
+
+<form id="form1" action="upload.php" method="post" enctype="multipart/form-data">
+
+	<p style="font-weight:bold">CSV FILE: </p>
+    <div>
 			<input type="file" class="input" id="csvfile" name="image" >
 			<button  id="submitcsv" class="btn btn-sm btn-success upload" style="margin-left:10px;" type="submit" disabled>Upload</button>
 			<button type="button" id="cancelcsv" style="margin-left:10px;" class="btn btn-sm btn-danger cancel">Cancel</button>
-                        <div id="erroextensao" style="display: none">The file has the wrong extension.</div>
-                        <div id="erroformato" style="display: none">The file wrong data.</div>
-                        
-			<div class="progress progress-striped active" style="margin-top:10px;">
+
+      <div id="erroextensaocsv" class="alert alert-danger" role="alert" style="display: none; width: 250px;">
+        <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+        <span id="" class="sr-only">w</span>
+          File has an incorrect extension.
+      </div>
+
+      <div id="erroformatocsv" class="alert alert-danger" role="alert" style="display: none; width: 400px;">
+        <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+        <span id="" class="sr-only">w</span>
+          File has incorrect data.
+      </div>
+    </div>
+      <!--<div id="erroextensaocsv" style="display: none">The file has the wrong extension.</div>-->
+      <!--<div id="erroformatocsv" style="display: none">The file wrong data.</div>-->
+
+			<div id="barCsv" class="progress progress-striped active" style="margin-top:10px;">
 				<div class="progress-bar" id="barcsv" style="width:0%"></div>
 			</div>
+
 		</form>
 
-		<form action="#">
+		<form id="form2" action="upload.php" method="post" enctype="multipart/form-data">
 			<p style="font-weight:bold">TXT FILE: </p>
-			<input type="file" id="txt1" class="input" name="image" >
-			<button id="submitTxt1" class="btn btn-sm btn-success upload" style="margin-left:10px;" type="submit" disabled>Upload</button>
-			<button type="button" id="cancelTxt" style="margin-left:10px;" class="btn btn-sm btn-danger cancel">Cancel</button>
+      <div>
+  			<input type="file" id="txt1" class="input" name="image" >
+  			<button id="submitTxt1" class="btn btn-sm btn-success upload" style="margin-left:10px;" type="submit" disabled>Upload</button>
+        <button type="button" id="cancelTxt" style="margin-left:10px;" class="btn btn-sm btn-danger cancel">Cancel</button>
 
-			<div class="progress progress-striped active" style="margin-top:10px;">
+        <div id="erroextensaotxt1" class="alert alert-danger" role="alert" style="display: none; width: 250px;">
+          <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+          <span id="" class="sr-only">w</span>
+            File has an incorrect extension.
+        </div>
+
+        <div id="erroformatotxt1" class="alert alert-danger" role="alert" style="display: none; width: 400px;">
+          <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+          <span id="" class="sr-only">w</span>
+            File has incorrect data.
+        </div>
+
+      </div>
+      <div class="progress progress-striped active" id="bar" style="margin-top:10px; display: none">
 				<div class="progress-bar" id="barTxt" style="width:0%"></div>
 			</div>
 		</form>
 
 		<br>
 		<h4 style="text-align:center">METADATA</h4>
-	
-		<form action="#">
-			<p style="font-weight:bold">SHAPE FILE: </p>
 
+		<form id="form3" action="upload.php" method="post" enctype="multipart/form-data">
+			<p style="font-weight:bold">SHAPE FILE: </p>
+          <div>
                         <label id="shapelabel" class="radio_inline">
                             <input id="single" type="radio" name="optionsRadios">
                             Single File
                         </label>
 
                         <label id="shapelabel1" class="radio_inline" style="margin-left:10px">
-                            <input id="multiple" type="radio" name="optionsRadios">  
+                            <input id="multiple" type="radio" name="optionsRadios">
                             Multiple Files
                         </label>
                         <p>
@@ -83,21 +114,48 @@
                                 <option>2015</option>
                             </select>
                         </p>
-			<input id="shape" class="input" type="file" name="image" style="display: none">
-			<button id="submitshape" class="btn btn-sm btn-success upload" style="margin-left:10px; display: none" type="submit"  disabled>Upload</button>
-			<button type="button" id="cancelshape" style="margin-left:10px; display: none" class="btn btn-sm btn-danger cancel" >Cancel</button>
+        			<input id="shape" class="input" type="file" name="image" style="display: none">
+        			<button id="submitshape" class="btn btn-sm btn-success upload" style="margin-left:10px; display: none" type="submit"  disabled>Upload</button>
+        			<button type="button" id="cancelshape" style="margin-left:10px; display: none" class="btn btn-sm btn-danger cancel" >Cancel</button>
 
+              <div id="erroextensaoshape" class="alert alert-danger" role="alert" style="display: none; width: 250px;">
+                <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+                <span id="" class="sr-only">w</span>
+                  File has an incorrect extension.
+              </div>
+
+              <div id="erroformatoshape" class="alert alert-danger" role="alert" style="display: none; width: 400px;">
+                <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+                <span id="" class="sr-only">w</span>
+                  File has incorrect data.
+              </div>
+
+    </div>
 			<div class="progress progress-striped active" id="bar" style="margin-top:10px; display: none">
 				<div class="progress-bar" id="barshape" style="width:0%"></div>
 			</div>
 		</form>
 
-		<form action="#">
+		<form id="form4" action="upload.php" method="post" enctype="multipart/form-data">
 			<p style="font-weight:bold">TXT FILE: </p>
-			<input id="txt2" class="input" type="file" name="image" >
-			<button id="submitTxt2" class="btn btn-sm btn-success upload" style="margin-left:10px;" type="submit" disabled>Upload</button>
-			<button type="button" id="cancelTxt2" style="margin-left:10px;" class="btn btn-sm btn-danger cancel">Cancel</button>
+      <div>
+  			<input id="txt2" class="input" type="file" name="image" >
+  			<button id="submitTxt2" class="btn btn-sm btn-success upload" style="margin-left:10px;" type="submit" disabled>Upload</button>
+  			<button type="button" id="cancelTxt2" style="margin-left:10px;" class="btn btn-sm btn-danger cancel">Cancel</button>
 
+        <div id="erroextensaotxt2" class="alert alert-danger" role="alert" style="display: none; width: 250px;">
+          <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+          <span id="" class="sr-only">w</span>
+            File has an incorrect extension.
+        </div>
+
+        <div id="erroformatotxt2" class="alert alert-danger" role="alert" style="display: none; width: 400px;">
+          <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+          <span id="" class="sr-only">w</span>
+            File has incorrect data.
+        </div>
+
+      </div>
 			<div class="progress progress-striped active" style="margin-top:10px;">
 				<div class="progress-bar" id="barTxt2" style="width:0%"></div>
 			</div>
@@ -111,7 +169,7 @@
 	</div><!-- end .container -->
 	<div id="wrapperbottomnologin"></div>
 	</div>
-		
+
 	<script>
 
 		$('.upload-all').click(function(){
@@ -123,12 +181,11 @@
 			$('form .cancel').click();
 		});
 
-		$(document).on('submit','form',function(e){
+		/*$(document).on('submit','form',function(e){
 
 			e.preventDefault();
 			$form = $(this);
-                        if(find().input)
-			uploadImage($form);
+      uploadImage($form);
 		});
 
 		function uploadImage($form){
@@ -146,51 +203,207 @@
 			request.addEventListener('load',function(e){
 				$form.find('.progress-bar').addClass('progress-bar-success').html('upload completed....');
 			});
-			request.open('post', 'upload.php');
+			request.open('post', 'upload.php', true);
 			request.send(formdata);
+      console.log(request.responseText);
 			$form.on('click','.cancel',function(){
 				request.abort();
+
 				$form.find('.progress-bar')
 					.addClass('progress-bar-danger')
 					.removeClass('progress-bar-success')
 					.html('upload aborted...');
 			});
+
+
 		}
-		//thanks for watching........
-		//code on git........
-		//subscribe, share, like, comment.............
+
+    $("#form1").ajaxForm({
+      beforeSend: function(){},
+      uploadProgress: function(event, position, total, percentComplete){
+        $("#barCsv").width(percentComplete + '%');
+        $("#barcsv").html(percentComplete + '%');
+      },
+      success: function(){},
+      complete: function(){}
+
+    });
+
+    $("#form2").ajaxForm({
+      beforeSend: function(){
+        $("#bar").show();
+      },
+      uploadProgress: function(event, position, total, percentComplete){
+        $("#bar").width(percentComplete + '%');
+        $("#barTxt").html(percentComplete + '%');
+      },
+      success: function(response){
+        $("#erroextensaotxt1").html("response.responseText");
+      },
+      complete: function(){}
+
+    });
+
+    $("#form3").ajaxForm({
+      beforeSend: function(){},
+      uploadProgress: function(){},
+      success: function(){},
+      complete: function(){}
+
+    });
+
+    $("#form4").ajaxForm({
+      beforeSend: function(){},
+      uploadProgress: function(){},
+      success: function(){},
+      complete: function(){}
+
+    });*/
+
+    function _(el){
+      return document.getElementById(el);
+    }
+
+    function uploadFIle(){
+      var file = _("csvfile").files[0];
+      var formdata = new FormData();
+      formdata.append("csvfile", file);
+      var ajax = new XMLHttpRequest();
+      ajax.upload.addEventListener("progress", progressHandler, false);
+      ajax.addEventListener("load", completeHandler, false);
+      ajax.addEventListener("error", errorHandler, false);
+      ajax.addEventListener("abort", abortHandler, false);
+      ajax.open("POST", "upload.php");
+      ajax.send(formdata);
+    }
+
+    function progressHandler(event){
+      var percent = Math.round(e.loaded/e.total * 100);
+      console.log(percent);
+      $form.find('.progress-bar').width(percent+'%').html(percent+'%');
+
+    }
+
+    function completeHandler(event){
+      _("erroextensaotxt1").innerHTML = event.target.responseText;
+      $form.find('.progress-bar').addClass('progress-bar-success').html('upload completed....');
+
+    }
+
+    function errorHandler(event){
+      _("erroextensaotxt1").innerHTML = event.target.responseText;
+
+    }
+
+    function abortHandler(event){
+      _("erroextensaotxt1").innerHTML = event.target.responseText;
+
+    }
 
 
         $("#csvfile").change( function(){
 
+          if($(this).val() != ''){
+            var ext = $(this).val().split('.').pop().toLowerCase();
+            if(ext !== 'txt') {
+
+              //  $("#erroextensaocsv").text("The file has an incorrect extension.");
+                $("#erroextensaocsv").show();
+
+            }
             $("#submitcsv").removeAttr('disabled');
             percent = 0;
             $('#barcsv').width(percent+'%').html(percent+'%');
-            
+          }else{
+            $("#submitcsv").removeAttr('disabled');
+            percent = 0;
+            $('#barcsv').width(percent+'%').html(percent+'%');
+            $("#erroextensaocsv").hide();
+          }
         });
 
         $("#txt1").change( function(){
-	    	
+
+          if($(this).val() != ''){
+            var ext = $(this).val().split('.').pop().toLowerCase();
+            if(ext !== 'txt') {
+                $("#erroextensaotxt1").show();
+            }
+            else{
+              $("#submitTxt1").removeAttr('disabled');
+              percent = 0;
+              $('#barTxt').width(percent+'%').html(percent+'%');
+              $("#erroextensaotxt1").hide();
+            }
+            //$("#submitcsv").removeAttr('disabled');
+            percent = 0;
+            $('#barTxt').width(percent+'%').html(percent+'%');
+          }else{
             $("#submitTxt1").removeAttr('disabled');
             percent = 0;
             $('#barTxt').width(percent+'%').html(percent+'%');
-           
-            
+            $("#erroextensaotxt1").hide();
+          }
         });
 
+      /*  $("#txt1").change( function(){
+
+            $("#submitTxt1").removeAttr('disabled');
+            percent = 0;
+            $('#barTxt').width(percent+'%').html(percent+'%');
+
+
+        });*/
+
         $("#shape").change( function(){
+
+          if($(this).val() != ''){
+            var ext = $(this).val().split('.').pop().toLowerCase();
+            if(ext !== 'zip' || ext != 'rar' || ext != '7zip') {
+                $("#erroextensaoshape").show();
+            }
+            //$("#submitcsv").removeAttr('disabled');
+            percent = 0;
+            $('#barshape').width(percent+'%').html(percent+'%');
+          }else{
             $("#submitshape").removeAttr('disabled');
             percent = 0;
             $('#barshape').width(percent+'%').html(percent+'%');
-            
+            $("#erroextensaoshape").hide();
+          }
         });
 
-     	$("#txt2").change( function(){
-			
+        /*$("#shape").change( function(){
+            $("#submitshape").removeAttr('disabled');
+            percent = 0;
+            $('#barshape').width(percent+'%').html(percent+'%');
+
+        });*/
+
+        $("#txt2").change( function(){
+
+          if($(this).val() != ''){
+            var ext = $(this).val().split('.').pop().toLowerCase();
+            if(ext !== 'txt') {
+                $("#erroextensaotxt2").show();
+            }
+            //$("#submitcsv").removeAttr('disabled');
+            percent = 0;
+            $('#barTxt2').width(percent+'%').html(percent+'%');
+          }else{
             $("#submitTxt2").removeAttr('disabled');
             percent = 0;
             $('#barTxt2').width(percent+'%').html(percent+'%');
-            
+            $("#erroextensaotxt2").hide();
+          }
+        });
+
+     	$("#txt2").change( function(){
+
+            $("#submitTxt2").removeAttr('disabled');
+            percent = 0;
+            $('#barTxt2').width(percent+'%').html(percent+'%');
+
         });
 
         function reset_form_element (e) {
@@ -204,39 +417,36 @@
         	$('#barcsv').width(percent+'%').html(percent+'%');
                 var control = $("#csvfile");
                 control.replaceWith( control = control.clone( true ) );
-                
+
         });
-        
+
         $("#cancelTxt").click(function(){
         	$("#submitTxt1").attr('disabled', 'disabled');
         	percent = 0;
         	$('#barTxt').width(percent+'%').html(percent+'%');
         	reset_form_element( $('#txt1') );
-    		e.preventDefault();
-                
+
+
         });
-        
+
         $("#cancelshape").click(function(){
         	$("#submitshape").attr('disabled', 'disabled');
         	percent = 0;
         	$('#barshape').width(percent+'%').html(percent+'%');
-                var control = $("#shape");
-                control.replaceWith( control = control.clone( true ) );
-        	reset_form_element( $('#shape') );
-    		e.preventDefault();
-                
+          var control = $("#shape");
+          control.replaceWith( control = control.clone( true ) );
         });
-        
+
         $("#cancelTxt2").click(function(){
-            $("#submitTxt2").attr('disabled', 'disabled');
+          $("#submitTxt2").attr('disabled', 'disabled');
         	percent = 0;
-        	$form.find('#barTxt2').width(percent+'%').html(percent+'%');
-                var control = $("#txt2");
-                control.replaceWith( control = control.clone( true ) );
+        	$('#barTxt2').width(percent+'%').html(percent+'%');
+          var control = $("#txt2");
+          control.replaceWith( control = control.clone( true ) );
         	reset_form_element( $('#txt2') );
-    		e.preventDefault();
+          $("#erroextensaotxt2").hide();
         });
-        
+
         $(".radio_inline input[type='radio']").on( 'click', function(){
             if ($("#single").is(":checked")) {
                 $(this).fadeOut();
@@ -247,7 +457,7 @@
                 $("#submitshape").fadeIn(2500);
                 $("#cancelshape").fadeIn(2500);
                 $("#bar").fadeIn(2500);
-                
+
             } else if ($("#multiple").is(":checked")) {
                 $(this).fadeOut();
                 $("#shapelabel").fadeOut();
